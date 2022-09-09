@@ -1,0 +1,19 @@
+{
+    "Name": "order-averages",
+    "DataSourceType": "Service Bus Queue",
+    "ServiceBusQueueProperties": {
+        "ServiceBusNamespace": "genetec-messages",
+        "QueueName": "order-averages",
+        "SharedAccessPolicyName": "asa-producer",
+        "SharedAccessPolicyKey": "********",
+        "PropertyColumns": [],
+        "SystemPropertyColumns": {}
+    },
+    "DataSourceCredentialDomain": "dae9c8fe-d12b-481d-bf33-4218bd768b2a.StreamAnalystics",
+    "Serialization": {
+        "Type": "Json",
+        "Encoding": "UTF8",
+        "Format": "LineSeparated"
+    },
+    "ScriptType": "Output"
+}

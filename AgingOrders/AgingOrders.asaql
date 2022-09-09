@@ -1,0 +1,17 @@
+-- Query over the event stream for all orders in which the last status is Processing
+-- and determine if they have been Processing long enough to be of concern.
+
+WITH AgingOrders AS (
+	SELECT OrderNumber,
+	   DATEDIFF(
+	   		minute, 
+			LAST(EventEnqueuedUtcTime) OVER (PARTITION BY OrderNumber LIMIT DURATION(minute, 5) WHEN OrderStatus = 0),
+			UDF.getCurrentDateTime()) as Duration
+	FROM [order-events]	
+)
+
+SELECT OrderNumber, CONCAT('Order with order number ', OrderNumber, ' is not progressing as expected.')
+INTO [aging-orders]
+FROM AgingOrders
+WHERE Duration > 1
+--GROUP BY OrderNumber, HoppingWindow(minute, 7, 2)

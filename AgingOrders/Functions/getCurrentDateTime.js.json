@@ -1,0 +1,7 @@
+{
+    "Name": "getCurrentDateTime",
+    "Type": "Scalar",
+    "ScriptType": "JSFunction",
+    "FunctionInputs": [],
+    "OutputType": "any"
+}

@@ -1,0 +1,22 @@
+{
+    "name": "OrderStatusAverages",
+    "startFile": "OrderStatusAverages.asaql",
+    "configurations": [
+        {
+            "filePath": "JobConfig.json",
+            "subType": "JobConfig"
+        },
+        {
+            "filePath": "Inputs/undefined",
+            "subType": "Input"
+        },
+        {
+            "filePath": "Inputs/order-events.json",
+            "subType": "Input"
+        },
+        {
+            "filePath": "Outputs/order-averages.json",
+            "subType": "Output"
+        }
+    ]
+}

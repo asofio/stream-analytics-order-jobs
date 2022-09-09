@@ -1,0 +1,18 @@
+{
+    "name": "QuantityAnomaly",
+    "startFile": "QuantityAnomaly.asaql",
+    "configurations": [
+        {
+            "filePath": "JobConfig.json",
+            "subType": "JobConfig"
+        },
+        {
+            "filePath": "Inputs/order-events.json",
+            "subType": "Input"
+        },
+        {
+            "filePath": "Outputs/quantity-anomalies.json",
+            "subType": "Output"
+        }
+    ]
+}

@@ -1,0 +1,19 @@
+{
+    "Name": "quantity-anomalies",
+    "DataSourceType": "Service Bus Queue",
+    "ServiceBusQueueProperties": {
+        "ServiceBusNamespace": "genetec-messages",
+        "QueueName": "quantity-anomalies",
+        "SharedAccessPolicyName": "asa-producer",
+        "SharedAccessPolicyKey": "********",
+        "PropertyColumns": [],
+        "SystemPropertyColumns": {}
+    },
+    "DataSourceCredentialDomain": "454c5066-0778-4b77-b9f9-b63a6eaccb0a.StreamAnalystics",
+    "Serialization": {
+        "Type": "Json",
+        "Encoding": "UTF8",
+        "Format": "LineSeparated"
+    },
+    "ScriptType": "Output"
+}

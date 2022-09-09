@@ -1,0 +1,19 @@
+{
+    "Name": "aging-orders",
+    "DataSourceType": "Service Bus Queue",
+    "ServiceBusQueueProperties": {
+        "ServiceBusNamespace": "genetec-messages",
+        "QueueName": "aging-anomalies",
+        "SharedAccessPolicyName": "asa-producer",
+        "SharedAccessPolicyKey": "********",
+        "PropertyColumns": [],
+        "SystemPropertyColumns": {}
+    },
+    "DataSourceCredentialDomain": "6de57254-21c4-450d-94c5-6f6d3bb5487f.StreamAnalystics",
+    "Serialization": {
+        "Type": "Json",
+        "Encoding": "UTF8",
+        "Format": "LineSeparated"
+    },
+    "ScriptType": "Output"
+}

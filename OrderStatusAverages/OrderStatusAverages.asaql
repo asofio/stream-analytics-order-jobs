@@ -1,0 +1,17 @@
+-- Query over the event stream for all orders that are in a Completed or Rejected state and calculate
+-- the duration of time elapsed from order creation.
+WITH FinalizedOrders AS (
+	SELECT 	OrderNumber, OrderStatus, 
+			DATEDIFF(
+				second,
+				LAST(EventEnqueuedUtcTime) OVER (PARTITION BY OrderNumber LIMIT DURATION(hour, 1) WHEN OrderStatus = 0),
+				EventEnqueuedUtcTime) as Duration
+	FROM [order-events]
+	WHERE OrderStatus IN (1, 2)
+)
+
+-- Calculate the average duration for all Completed and Rejected orders
+SELECT OrderStatus, AVG(Duration)
+INTO [order-averages]
+FROM [FinalizedOrders]
+GROUP BY OrderStatus, HoppingWindow(second, 20, 15)

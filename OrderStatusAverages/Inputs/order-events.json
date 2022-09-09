@@ -1,0 +1,21 @@
+{
+    "Name": "order-events",
+    "Type": "Data Stream",
+    "DataSourceType": "Event Hub",
+    "EventHubProperties": {
+        "ServiceBusNamespace": "genetec-events",
+        "EventHubName": "order-events",
+        "SharedAccessPolicyName": "asa-consumer",
+        "SharedAccessPolicyKey": "********",
+        "ConsumerGroupName": "order-averages",
+        "AuthenticationMode": "ConnectionString"
+    },
+    "DataSourceCredentialDomain": "af783e2e-c33d-4999-91e7-de36beb80bc2.StreamAnalystics",
+    "Serialization": {
+        "Type": "Json",
+        "Encoding": "UTF8"
+    },
+    "PartitionKey": null,
+    "CompressionType": "None",
+    "ScriptType": "Input"
+}

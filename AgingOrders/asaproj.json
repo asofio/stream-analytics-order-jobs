@@ -1,0 +1,22 @@
+{
+    "name": "AgingOrders",
+    "startFile": "AgingOrders.asaql",
+    "configurations": [
+        {
+            "filePath": "JobConfig.json",
+            "subType": "JobConfig"
+        },
+        {
+            "filePath": "Inputs/order-events.json",
+            "subType": "Input"
+        },
+        {
+            "filePath": "Outputs/aging-orders.json",
+            "subType": "Output"
+        },
+        {
+            "filePath": "Functions/getCurrentDateTime.js.json",
+            "subType": "JSFunction"
+        }
+    ]
+}

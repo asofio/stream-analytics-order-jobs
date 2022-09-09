@@ -1,0 +1,19 @@
+WITH AnomalyDetectionStep AS
+(
+    SELECT
+        AccountNumber,
+        System.Timestamp() AS Time,
+        Quantity,
+        AnomalyDetection_SpikeAndDip(CAST(Quantity AS FLOAT), 75, 120, 'spikes')
+            OVER(PARTITION BY AccountNumber LIMIT DURATION(second, 120)) AS SpikeScores
+    FROM [order-events]
+)
+SELECT
+    AccountNumber,
+    Time,
+    Quantity,
+    CAST(GetRecordPropertyValue(SpikeScores, 'Score') as float) AS SpikeScore,
+    CAST(GetRecordPropertyValue(SpikeScores, 'IsAnomaly') AS BIGINT) AS IsSpikeAnomaly
+INTO [quantity-anomalies]
+FROM AnomalyDetectionStep
+WHERE CAST(GetRecordPropertyValue(SpikeScores, 'IsAnomaly') AS BIGINT) = 1
