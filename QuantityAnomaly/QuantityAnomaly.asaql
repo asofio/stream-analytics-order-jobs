@@ -1,3 +1,4 @@
+-- This query will detect anomalous spikes in the quantity being ordered across an account number.
 WITH AnomalyDetectionStep AS
 (
     SELECT

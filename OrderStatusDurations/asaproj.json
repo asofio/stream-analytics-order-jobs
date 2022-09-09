@@ -1,0 +1,22 @@
+{
+    "name": "OrderStatusDurations",
+    "startFile": "OrderStatusDurations.asaql",
+    "configurations": [
+        {
+            "filePath": "JobConfig.json",
+            "subType": "JobConfig"
+        },
+        {
+            "filePath": "Inputs/genetec-events.json",
+            "subType": "Input"
+        },
+        {
+            "filePath": "Inputs/order-events.json",
+            "subType": "Input"
+        },
+        {
+            "filePath": "Outputs/order-durations.json",
+            "subType": "Output"
+        }
+    ]
+}

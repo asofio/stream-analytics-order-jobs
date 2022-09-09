@@ -1,0 +1,8 @@
+-- For every event, 
+SELECT OrderStatus, OrderNumber,
+       DATEDIFF(second,
+                LAST(EventEnqueuedUtcTime) OVER (PARTITION BY OrderNumber LIMIT DURATION(hour, 1) WHEN OrderStatus = 0),
+                EventEnqueuedUtcTime) AS Duration
+INTO [order-durations]
+FROM [order-events]
+Where OrderStatus IN (1,2)

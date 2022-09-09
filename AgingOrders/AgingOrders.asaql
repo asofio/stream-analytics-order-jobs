@@ -7,11 +7,11 @@ WITH AgingOrders AS (
 	   		minute, 
 			LAST(EventEnqueuedUtcTime) OVER (PARTITION BY OrderNumber LIMIT DURATION(minute, 5) WHEN OrderStatus = 0),
 			UDF.getCurrentDateTime()) as Duration
-	FROM [order-events]	
+	FROM [order-events]
 )
 
-SELECT OrderNumber, CONCAT('Order with order number ', OrderNumber, ' is not progressing as expected.')
+SELECT OrderNumber, CONCAT('Order with order number ', OrderNumber, ' is not progressing as expected.'), MAX(Duration)
 INTO [aging-orders]
 FROM AgingOrders
-WHERE Duration > 1
---GROUP BY OrderNumber, HoppingWindow(minute, 7, 2)
+WHERE Duration > 3
+GROUP BY OrderNumber, HoppingWindow(minute, 7, 2)

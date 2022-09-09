@@ -1,21 +1,20 @@
 {
     "Name": "order-durations",
-    "Type": "Data Stream",
     "DataSourceType": "Event Hub",
     "EventHubProperties": {
         "ServiceBusNamespace": "genetec-events",
         "EventHubName": "order-durations",
         "SharedAccessPolicyName": "asa",
         "SharedAccessPolicyKey": "********",
-        "ConsumerGroupName": "$Default",
+        "PartitionKey": "",
+        "PropertyColumns": [],
         "AuthenticationMode": "ConnectionString"
     },
-    "DataSourceCredentialDomain": "a3ad009b-603d-4eda-96d5-7426e07b0c60.StreamAnalystics",
+    "DataSourceCredentialDomain": "5468f63c-825e-44a7-9a99-5bc3b73dd9c3.StreamAnalystics",
     "Serialization": {
         "Type": "Json",
-        "Encoding": "UTF8"
+        "Encoding": "UTF8",
+        "Format": "LineSeparated"
     },
-    "PartitionKey": null,
-    "CompressionType": "None",
-    "ScriptType": "Input"
+    "ScriptType": "Output"
 }
