@@ -6,7 +6,7 @@ WITH AgingOrders AS (
 	   DATEDIFF(
 	   		minute, 
 			LAST(EventEnqueuedUtcTime) OVER (PARTITION BY OrderNumber LIMIT DURATION(minute, 5) WHEN OrderStatus = 0),
-			UDF.getCurrentDateTime()) as Duration
+			UDF.getCurrentDateTime(false)) as Duration
 	FROM [order-events]
 )
 

@@ -2,6 +2,11 @@
     "Name": "getCurrentDateTime",
     "Type": "Scalar",
     "ScriptType": "JSFunction",
-    "FunctionInputs": [],
+    "FunctionInputs": [
+        {
+            "DataType": "any",
+            "IsConfigurationParameter": null
+        }
+    ],
     "OutputType": "any"
 }

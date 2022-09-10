@@ -7,10 +7,6 @@
             "subType": "JobConfig"
         },
         {
-            "filePath": "Inputs/genetec-events.json",
-            "subType": "Input"
-        },
-        {
             "filePath": "Inputs/order-events.json",
             "subType": "Input"
         },

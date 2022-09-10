@@ -1,0 +1,282 @@
+{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "ASAApiVersion": {
+      "type": "string"
+    },
+    "StreamAnalyticsJobName": {
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 63,
+      "metadata": {
+        "description": "Stream Analytics job name can contain alphanumeric characters, hyphens, and underscores only and must be 3-63 characters long."
+      }
+    },
+    "Location": {
+      "type": "string"
+    },
+    "OutputStartMode": {
+      "type": "string",
+      "allowedValues": [
+        "JobStartTime",
+        "CustomTime",
+        "LastOutputEventTime"
+      ]
+    },
+    "OutputStartTime": {
+      "type": "string"
+    },
+    "DataLocale": {
+      "type": "string"
+    },
+    "OutputErrorPolicy": {
+      "type": "string",
+      "allowedValues": [
+        "Drop",
+        "Stop"
+      ]
+    },
+    "EventsLateArrivalMaxDelayInSeconds": {
+      "type": "int"
+    },
+    "EventsOutOfOrderMaxDelayInSeconds": {
+      "type": "int"
+    },
+    "EventsOutOfOrderPolicy": {
+      "type": "string",
+      "allowedValues": [
+        "Adjust",
+        "Drop"
+      ]
+    },
+    "StreamingUnits": {
+      "type": "int",
+      "minValue": 1,
+      "maxValue": 396,
+      "metadata": {
+        "description": "Number of Streaming Units"
+      },
+      "allowedValues": [
+        1,
+        3,
+        6,
+        12,
+        18,
+        24,
+        30,
+        36,
+        42,
+        48,
+        54,
+        60,
+        66,
+        72,
+        78,
+        84,
+        90,
+        96,
+        102,
+        108,
+        114,
+        120,
+        126,
+        132,
+        138,
+        144,
+        150,
+        156,
+        162,
+        168,
+        174,
+        180,
+        186,
+        192,
+        198,
+        204,
+        210,
+        216,
+        222,
+        228,
+        234,
+        240,
+        246,
+        252,
+        258,
+        264,
+        270,
+        276,
+        282,
+        288,
+        294,
+        300,
+        306,
+        312,
+        318,
+        324,
+        330,
+        336,
+        342,
+        348,
+        354,
+        360,
+        366,
+        372,
+        378,
+        384,
+        390,
+        396
+      ]
+    },
+    "CompatibilityLevel": {
+      "type": "string",
+      "allowedValues": [
+        "1.0",
+        "1.1",
+        "1.2"
+      ]
+    },
+    "ContentStoragePolicy": {
+      "type": "string",
+      "allowedValues": [
+        "SystemAccount",
+        "JobStorageAccount"
+      ]
+    },
+    "Input_order-events_serviceBusNamespace": {
+      "type": "string"
+    },
+    "Input_order-events_eventHubName": {
+      "type": "string"
+    },
+    "Input_order-events_consumerGroupName": {
+      "type": "string"
+    },
+    "Input_order-events_sharedAccessPolicyName": {
+      "type": "string"
+    },
+    "Input_order-events_sharedAccessPolicyKey": {
+      "type": "string"
+    },
+    "Input_order-events_authenticationMode": {
+      "type": "string"
+    },
+    "Output_aging-orders_serviceBusNamespace": {
+      "type": "string"
+    },
+    "Output_aging-orders_sharedAccessPolicyName": {
+      "type": "string"
+    },
+    "Output_aging-orders_sharedAccessPolicyKey": {
+      "type": "string"
+    },
+    "Output_aging-orders_queueName": {
+      "type": "string"
+    }
+  },
+  "resources": [
+    {
+      "type": "Microsoft.StreamAnalytics/StreamingJobs",
+      "apiVersion": "[parameters('ASAApiVersion')]",
+      "name": "[parameters('StreamAnalyticsJobName')]",
+      "location": "[parameters('Location')]",
+      "properties": {
+        "outputStartMode": "[parameters('OutputStartMode')]",
+        "outputStartTime": "[if(equals(parameters('OutputStartMode'),'CustomTime'), parameters('OutputStartTime'), json('null'))]",
+        "sku": {
+          "name": "standard"
+        },
+        "jobType": "Cloud",
+        "eventsOutOfOrderPolicy": "[parameters('EventsOutOfOrderPolicy')]",
+        "outputErrorPolicy": "[parameters('OutputErrorPolicy')]",
+        "eventsOutOfOrderMaxDelayInSeconds": "[parameters('EventsOutOfOrderMaxDelayInSeconds')]",
+        "eventsLateArrivalMaxDelayInSeconds": "[parameters('EventsLateArrivalMaxDelayInSeconds')]",
+        "dataLocale": "[parameters('DataLocale')]",
+        "compatibilityLevel": "[parameters('CompatibilityLevel')]",
+        "contentStoragePolicy": "[parameters('ContentStoragePolicy')]",
+        "transformation": {
+          "name": "Transformation",
+          "properties": {
+            "streamingUnits": "[parameters('StreamingUnits')]",
+            "query": "-- Query over the event stream for all orders in which the last status is Processing\n-- and determine if they have been Processing long enough to be of concern.\n\nWITH AgingOrders AS (\n\tSELECT OrderNumber,\n\t   DATEDIFF(\n\t   \t\tminute, \n\t\t\tLAST(EventEnqueuedUtcTime) OVER (PARTITION BY OrderNumber LIMIT DURATION(minute, 5) WHEN OrderStatus = 0),\n\t\t\tUDF.getCurrentDateTime(false)) as Duration\n\tFROM [order-events]\n)\n\nSELECT OrderNumber, CONCAT('Order with order number ', OrderNumber, ' is not progressing as expected.'), MAX(Duration)\nINTO [aging-orders]\nFROM AgingOrders\nWHERE Duration > 3\nGROUP BY OrderNumber, HoppingWindow(minute, 7, 2)"
+          }
+        },
+        "inputs": [
+          {
+            "name": "order-events",
+            "properties": {
+              "type": "Stream",
+              "datasource": {
+                "type": "Microsoft.ServiceBus/EventHub",
+                "properties": {
+                  "serviceBusNamespace": "[parameters('Input_order-events_serviceBusNamespace')]",
+                  "eventHubName": "[parameters('Input_order-events_eventHubName')]",
+                  "consumerGroupName": "[parameters('Input_order-events_consumerGroupName')]",
+                  "sharedAccessPolicyName": "[parameters('Input_order-events_sharedAccessPolicyName')]",
+                  "sharedAccessPolicyKey": "[parameters('Input_order-events_sharedAccessPolicyKey')]",
+                  "authenticationMode": "[parameters('Input_order-events_authenticationMode')]"
+                }
+              },
+              "compression": {
+                "type": "None"
+              },
+              "serialization": {
+                "type": "Json",
+                "properties": {
+                  "encoding": "UTF8"
+                }
+              }
+            }
+          }
+        ],
+        "outputs": [
+          {
+            "name": "aging-orders",
+            "properties": {
+              "serialization": {
+                "type": "Json",
+                "properties": {
+                  "encoding": "UTF8",
+                  "format": "LineSeparated"
+                }
+              },
+              "datasource": {
+                "type": "Microsoft.ServiceBus/Queue",
+                "properties": {
+                  "serviceBusNamespace": "[parameters('Output_aging-orders_serviceBusNamespace')]",
+                  "queueName": "[parameters('Output_aging-orders_queueName')]",
+                  "sharedAccessPolicyName": "[parameters('Output_aging-orders_sharedAccessPolicyName')]",
+                  "sharedAccessPolicyKey": "[parameters('Output_aging-orders_sharedAccessPolicyKey')]"
+                }
+              }
+            }
+          }
+        ],
+        "functions": [
+          {
+            "name": "getCurrentDateTime",
+            "properties": {
+              "type": "Scalar",
+              "properties": {
+                "inputs": [
+                  {
+                    "dataType": "any"
+                  }
+                ],
+                "output": {
+                  "dataType": "any"
+                },
+                "binding": {
+                  "type": "Microsoft.StreamAnalytics/JavascriptUdf",
+                  "properties": {
+                    "script": "// Sample UDF which returns sum of two values.\nfunction main(x) {\n    return arg1 + arg2;\n}"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,81 @@
+{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "ASAApiVersion": {
+      "value": "2017-04-01-preview"
+    },
+    "StreamAnalyticsJobName": {
+      "value": "OrderStatusDurations"
+    },
+    "Location": {
+      "value": "West US 2"
+    },
+    "OutputStartMode": {
+      "value": "JobStartTime"
+    },
+    "OutputStartTime": {
+      "value": "2019-01-01T00:00:00Z"
+    },
+    "DataLocale": {
+      "value": "en-US"
+    },
+    "OutputErrorPolicy": {
+      "value": "Stop"
+    },
+    "EventsLateArrivalMaxDelayInSeconds": {
+      "value": 5
+    },
+    "EventsOutOfOrderMaxDelayInSeconds": {
+      "value": 0
+    },
+    "EventsOutOfOrderPolicy": {
+      "value": "Adjust"
+    },
+    "StreamingUnits": {
+      "value": 3
+    },
+    "CompatibilityLevel": {
+      "value": "1.2"
+    },
+    "ContentStoragePolicy": {
+      "value": "SystemAccount"
+    },
+    "Input_order-events_serviceBusNamespace": {
+      "value": "genetec-events"
+    },
+    "Input_order-events_eventHubName": {
+      "value": "order-events"
+    },
+    "Input_order-events_consumerGroupName": {
+      "value": "$Default"
+    },
+    "Input_order-events_sharedAccessPolicyName": {
+      "value": "asa-consumer"
+    },
+    "Input_order-events_sharedAccessPolicyKey": {
+      "value": "Z/TMb0EuLFfwhAjHwrm4Ptje0A5Fwbm9XGl8ReblpqI="
+    },
+    "Input_order-events_authenticationMode": {
+      "value": "ConnectionString"
+    },
+    "Output_order-durations_serviceBusNamespace": {
+      "value": "genetec-events"
+    },
+    "Output_order-durations_eventHubName": {
+      "value": "order-durations"
+    },
+    "Output_order-durations_partitionKey": {
+      "value": ""
+    },
+    "Output_order-durations_sharedAccessPolicyName": {
+      "value": "asa"
+    },
+    "Output_order-durations_sharedAccessPolicyKey": {
+      "value": "Fd3JBCL5mzT3jUDbkeoAvce4iwxlXU2paSADHvIs9XI="
+    },
+    "Output_order-durations_authenticationMode": {
+      "value": "ConnectionString"
+    }
+  }
+}

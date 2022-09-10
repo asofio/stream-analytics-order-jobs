@@ -5,7 +5,7 @@ WITH AnomalyDetectionStep AS
         AccountNumber,
         System.Timestamp() AS Time,
         Quantity,
-        AnomalyDetection_SpikeAndDip(CAST(Quantity AS FLOAT), 75, 120, 'spikes')
+        AnomalyDetection_SpikeAndDip(CAST(Quantity AS FLOAT), 90, 120, 'spikes')
             OVER(PARTITION BY AccountNumber LIMIT DURATION(second, 120)) AS SpikeScores
     FROM [order-events]
 )

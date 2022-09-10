@@ -1,0 +1,75 @@
+{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "ASAApiVersion": {
+      "value": "2017-04-01-preview"
+    },
+    "StreamAnalyticsJobName": {
+      "value": "OrderStatusAverages"
+    },
+    "Location": {
+      "value": "West US 2"
+    },
+    "OutputStartMode": {
+      "value": "JobStartTime"
+    },
+    "OutputStartTime": {
+      "value": "2019-01-01T00:00:00Z"
+    },
+    "DataLocale": {
+      "value": "en-US"
+    },
+    "OutputErrorPolicy": {
+      "value": "Stop"
+    },
+    "EventsLateArrivalMaxDelayInSeconds": {
+      "value": 5
+    },
+    "EventsOutOfOrderMaxDelayInSeconds": {
+      "value": 0
+    },
+    "EventsOutOfOrderPolicy": {
+      "value": "Adjust"
+    },
+    "StreamingUnits": {
+      "value": 3
+    },
+    "CompatibilityLevel": {
+      "value": "1.2"
+    },
+    "ContentStoragePolicy": {
+      "value": "SystemAccount"
+    },
+    "Input_order-durations_serviceBusNamespace": {
+      "value": "genetec-events"
+    },
+    "Input_order-durations_eventHubName": {
+      "value": "order-durations"
+    },
+    "Input_order-durations_consumerGroupName": {
+      "value": "$Default"
+    },
+    "Input_order-durations_sharedAccessPolicyName": {
+      "value": "asa"
+    },
+    "Input_order-durations_sharedAccessPolicyKey": {
+      "value": "Fd3JBCL5mzT3jUDbkeoAvce4iwxlXU2paSADHvIs9XI="
+    },
+    "Input_order-durations_authenticationMode": {
+      "value": "ConnectionString"
+    },
+    "Output_order-averages_serviceBusNamespace": {
+      "value": "genetec-messages"
+    },
+    "Output_order-averages_sharedAccessPolicyName": {
+      "value": "asa-producer"
+    },
+    "Output_order-averages_sharedAccessPolicyKey": {
+      "value": "smCHJHwfLrIfMZEkSuI14ysGWmTyYllbSo35I4QmCAs="
+    },
+    "Output_order-averages_queueName": {
+      "value": "order-averages"
+    }
+  }
+}

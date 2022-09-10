@@ -1,4 +1,5 @@
--- For every event, 
+-- For every event that is in a terminal state (Completed, Rejected), find the initial Processing event and determine the duration of time
+-- it took to reach the terminal state.  This job produces an event back to an Event Hub that is then used by the OrderStatusAverages job.
 SELECT OrderStatus, OrderNumber,
        DATEDIFF(second,
                 LAST(EventEnqueuedUtcTime) OVER (PARTITION BY OrderNumber LIMIT DURATION(hour, 1) WHEN OrderStatus = 0),

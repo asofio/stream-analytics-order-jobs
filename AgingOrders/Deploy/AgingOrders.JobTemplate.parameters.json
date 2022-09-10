@@ -1,0 +1,75 @@
+{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "ASAApiVersion": {
+      "value": "2017-04-01-preview"
+    },
+    "StreamAnalyticsJobName": {
+      "value": "AgingOrders"
+    },
+    "Location": {
+      "value": "Central US"
+    },
+    "OutputStartMode": {
+      "value": "JobStartTime"
+    },
+    "OutputStartTime": {
+      "value": "2019-01-01T00:00:00Z"
+    },
+    "DataLocale": {
+      "value": "en-US"
+    },
+    "OutputErrorPolicy": {
+      "value": "Stop"
+    },
+    "EventsLateArrivalMaxDelayInSeconds": {
+      "value": 5
+    },
+    "EventsOutOfOrderMaxDelayInSeconds": {
+      "value": 0
+    },
+    "EventsOutOfOrderPolicy": {
+      "value": "Adjust"
+    },
+    "StreamingUnits": {
+      "value": 3
+    },
+    "CompatibilityLevel": {
+      "value": "1.2"
+    },
+    "ContentStoragePolicy": {
+      "value": "SystemAccount"
+    },
+    "Input_order-events_serviceBusNamespace": {
+      "value": "genetec-events"
+    },
+    "Input_order-events_eventHubName": {
+      "value": "order-events"
+    },
+    "Input_order-events_consumerGroupName": {
+      "value": "aging-orders"
+    },
+    "Input_order-events_sharedAccessPolicyName": {
+      "value": "asa-consumer"
+    },
+    "Input_order-events_sharedAccessPolicyKey": {
+      "value": "Z/TMb0EuLFfwhAjHwrm4Ptje0A5Fwbm9XGl8ReblpqI="
+    },
+    "Input_order-events_authenticationMode": {
+      "value": "ConnectionString"
+    },
+    "Output_aging-orders_serviceBusNamespace": {
+      "value": "genetec-messages"
+    },
+    "Output_aging-orders_sharedAccessPolicyName": {
+      "value": "asa-producer"
+    },
+    "Output_aging-orders_sharedAccessPolicyKey": {
+      "value": "ZweeonbcLmG3JTIEzm5MO1u2A6MNVcNhyW79bChNTe0="
+    },
+    "Output_aging-orders_queueName": {
+      "value": "aging-anomalies"
+    }
+  }
+}
