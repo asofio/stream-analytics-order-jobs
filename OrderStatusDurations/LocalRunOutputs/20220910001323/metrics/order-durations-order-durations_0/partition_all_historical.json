@@ -1,0 +1,3 @@
+﻿{"timestamp":"2022-09-10T05:13:43.649626Z","payload":{"OutputEvents":12.0,"OutputEventsPerSecond":12.0,"OutputWatermarkDelaySeconds":0.20105699999999999,"OutputEventsSerializerErrors":0.0,"OutputEventsSerializerErrorsPerSecond":0.0}}
+{"timestamp":"2022-09-10T05:13:53.588803Z","payload":{"OutputEvents":7.0,"OutputEventsPerSecond":7.0,"OutputWatermarkDelaySeconds":0.121737,"OutputEventsSerializerErrors":0.0,"OutputEventsSerializerErrorsPerSecond":0.0}}
+{"timestamp":"2022-09-10T05:14:03.585492Z","payload":{"OutputEvents":6.0,"OutputEventsPerSecond":6.0,"OutputWatermarkDelaySeconds":0.468045,"OutputEventsSerializerErrors":0.0,"OutputEventsSerializerErrorsPerSecond":0.0}}

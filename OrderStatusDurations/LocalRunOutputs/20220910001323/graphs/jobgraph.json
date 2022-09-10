@@ -1,0 +1,161 @@
+﻿{
+  "nodes": [
+    {
+      "id": "order-events_0",
+      "name": "order-events",
+      "type": "Input",
+      "dataSourceType": "InputEventHub",
+      "partitionIds": [
+        0,
+        1
+      ],
+      "subNodes": [
+        {
+          "id": "order-events_0_0",
+          "name": "order-events",
+          "type": "Input",
+          "processorId": "order-events#0$0",
+          "partitionIds": [
+            0
+          ]
+        },
+        {
+          "id": "order-events_0_1",
+          "name": "order-events",
+          "type": "Input",
+          "processorId": "order-events#1$0",
+          "partitionIds": [
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "id": "order-durations_order-durations_0",
+      "name": "order-durations",
+      "type": "Step",
+      "partitionIds": [
+        0,
+        1
+      ],
+      "scriptPosition": {
+        "startLine": 11,
+        "startColumn": 1,
+        "startOffset": 598,
+        "endLine": 13,
+        "endColumn": 19,
+        "endOffset": 697
+      },
+      "inputTimeShift": "00:00:00",
+      "subNodes": [
+        {
+          "id": "order-durations_order-durations_0_0",
+          "name": "order-durations",
+          "type": "Step",
+          "processorId": "order-durations#0$0",
+          "partitionIds": [
+            0
+          ]
+        },
+        {
+          "id": "order-durations_order-durations_0_1",
+          "name": "order-durations",
+          "type": "Step",
+          "processorId": "order-durations#1$0",
+          "partitionIds": [
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "id": "order-durations-order-durations_0",
+      "name": "order-durations",
+      "type": "Output",
+      "dataSourceType": "OutputEventHub",
+      "partitionIds": [
+        0,
+        1
+      ],
+      "inputTimeShift": "00:05:00",
+      "subNodes": [
+        {
+          "id": "order-durations-order-durations_0_0",
+          "name": "order-durations",
+          "type": "Output",
+          "processorId": "order-durations-order-durations#0$0",
+          "partitionIds": [
+            0
+          ]
+        },
+        {
+          "id": "order-durations-order-durations_0_1",
+          "name": "order-durations",
+          "type": "Output",
+          "processorId": "order-durations-order-durations#1$0",
+          "partitionIds": [
+            1
+          ]
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "order-events_0_0",
+      "target": "order-durations_order-durations_0_0"
+    },
+    {
+      "source": "order-events_0",
+      "target": "order-durations_order-durations_0_0"
+    },
+    {
+      "source": "order-events_0",
+      "target": "order-durations_order-durations_0"
+    },
+    {
+      "source": "order-events_0_1",
+      "target": "order-durations_order-durations_0_1"
+    },
+    {
+      "source": "order-events_0",
+      "target": "order-durations_order-durations_0_1"
+    },
+    {
+      "source": "order-events_0_0",
+      "target": "order-durations_order-durations_0"
+    },
+    {
+      "source": "order-durations_order-durations_0_0",
+      "target": "order-durations-order-durations_0_0"
+    },
+    {
+      "source": "order-durations_order-durations_0",
+      "target": "order-durations-order-durations_0_0"
+    },
+    {
+      "source": "order-durations_order-durations_0",
+      "target": "order-durations-order-durations_0"
+    },
+    {
+      "source": "order-events_0_1",
+      "target": "order-durations_order-durations_0"
+    },
+    {
+      "source": "order-durations_order-durations_0_1",
+      "target": "order-durations-order-durations_0_1"
+    },
+    {
+      "source": "order-durations_order-durations_0",
+      "target": "order-durations-order-durations_0_1"
+    },
+    {
+      "source": "order-durations_order-durations_0_0",
+      "target": "order-durations-order-durations_0"
+    },
+    {
+      "source": "order-durations_order-durations_0_1",
+      "target": "order-durations-order-durations_0"
+    }
+  ]
+}

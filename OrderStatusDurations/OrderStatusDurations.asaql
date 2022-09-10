@@ -1,9 +1,11 @@
 -- For every event that is in a terminal state (Completed, Rejected), find the initial Processing event and determine the duration of time
 -- it took to reach the terminal state.  This job produces an event back to an Event Hub that is then used by the OrderStatusAverages job.
-SELECT OrderStatus, OrderNumber,
+SELECT GetMetadataPropertyValue([order-events], '[User].[MessageType]') as OrderStatus, OrderId,
        DATEDIFF(second,
-                LAST(EventEnqueuedUtcTime) OVER (PARTITION BY OrderNumber LIMIT DURATION(hour, 1) WHEN OrderStatus = 0),
-                EventEnqueuedUtcTime) AS Duration
+                LAST(EventEnqueuedUtcTime) OVER (PARTITION BY OrderId LIMIT DURATION(hour, 1) WHEN GetMetadataPropertyValue([order-events], '[User].[MessageType]') = 'OrderCreatedEvent'),
+                EventEnqueuedUtcTime) AS Duration,
+    GetMetadataPropertyValue([order-events], '[User].[MessageType]')
 INTO [order-durations]
 FROM [order-events]
-Where OrderStatus IN (1,2)
+Where GetMetadataPropertyValue([order-events], '[User].[MessageType]') = 'OrderCompletedEvent' OR
+      GetMetadataPropertyValue([order-events], '[User].[MessageType]') = 'OrderRejectedEvent'

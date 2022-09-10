@@ -1,0 +1,4 @@
+﻿{"timestamp":"2022-09-10T05:13:43.649626Z","payload":{"QueryWatermarkDelaySeconds":0.20834899999999998}}
+{"timestamp":"2022-09-10T05:13:53.588803Z","payload":{"QueryWatermarkDelaySeconds":0.6766599999999999}}
+{"timestamp":"2022-09-10T05:14:03.585492Z","payload":{"QueryWatermarkDelaySeconds":0.0}}
+{"timestamp":"2022-09-10T05:14:09.849769Z","payload":{"QueryWatermarkDelaySeconds":0.476908}}

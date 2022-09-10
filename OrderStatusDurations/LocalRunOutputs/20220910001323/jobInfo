@@ -1,0 +1,10 @@
+﻿{
+  "id": "4266e4f8-5cd6-422e-8949-6c068c28186a",
+  "port": 20990,
+  "inputs": [
+    "order-events"
+  ],
+  "outputs": [
+    "order-durations"
+  ]
+}

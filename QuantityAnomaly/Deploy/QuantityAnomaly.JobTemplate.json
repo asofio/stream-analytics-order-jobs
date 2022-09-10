@@ -198,7 +198,7 @@
           "name": "Transformation",
           "properties": {
             "streamingUnits": "[parameters('StreamingUnits')]",
-            "query": "-- This query will detect anomalous spikes in the quantity being ordered across an account number.\nWITH AnomalyDetectionStep AS\n(\n    SELECT\n        AccountNumber,\n        System.Timestamp() AS Time,\n        Quantity,\n        AnomalyDetection_SpikeAndDip(CAST(Quantity AS FLOAT), 75, 120, 'spikes')\n            OVER(PARTITION BY AccountNumber LIMIT DURATION(second, 120)) AS SpikeScores\n    FROM [order-events]\n)\nSELECT\n    AccountNumber,\n    Time,\n    Quantity,\n    CAST(GetRecordPropertyValue(SpikeScores, 'Score') as float) AS SpikeScore,\n    CAST(GetRecordPropertyValue(SpikeScores, 'IsAnomaly') AS BIGINT) AS IsSpikeAnomaly\nINTO [quantity-anomalies]\nFROM AnomalyDetectionStep\nWHERE CAST(GetRecordPropertyValue(SpikeScores, 'IsAnomaly') AS BIGINT) = 1"
+            "query": "-- This query will detect anomalous spikes in the quantity being ordered across an account number.\nWITH AnomalyDetectionStep AS\n(\n    SELECT\n        AccountNumber,\n        System.Timestamp() AS Time,\n        Quantity,\n        AnomalyDetection_SpikeAndDip(CAST(Quantity AS FLOAT), 90, 120, 'spikes')\n            OVER(PARTITION BY AccountNumber LIMIT DURATION(second, 120)) AS SpikeScores\n    FROM [order-events]\n)\nSELECT\n    AccountNumber,\n    Time,\n    Quantity,\n    CAST(GetRecordPropertyValue(SpikeScores, 'Score') as float) AS SpikeScore,\n    CAST(GetRecordPropertyValue(SpikeScores, 'IsAnomaly') AS BIGINT) AS IsSpikeAnomaly\nINTO [quantity-anomalies]\nFROM AnomalyDetectionStep\nWHERE CAST(GetRecordPropertyValue(SpikeScores, 'IsAnomaly') AS BIGINT) = 1"
           }
         },
         "inputs": [

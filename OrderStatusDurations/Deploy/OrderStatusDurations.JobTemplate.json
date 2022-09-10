@@ -204,7 +204,7 @@
           "name": "Transformation",
           "properties": {
             "streamingUnits": "[parameters('StreamingUnits')]",
-            "query": "-- For every event, \nSELECT OrderStatus, OrderNumber,\n       DATEDIFF(second,\n                LAST(EventEnqueuedUtcTime) OVER (PARTITION BY OrderNumber LIMIT DURATION(hour, 1) WHEN OrderStatus = 0),\n                EventEnqueuedUtcTime) AS Duration\nINTO [order-durations]\nFROM [order-events]\nWhere OrderStatus IN (1,2)"
+            "query": "-- For every event that is in a terminal state (Completed, Rejected), find the initial Processing event and determine the duration of time\n-- it took to reach the terminal state.  This job produces an event back to an Event Hub that is then used by the OrderStatusAverages job.\nSELECT OrderStatus, OrderNumber,\n       DATEDIFF(second,\n                LAST(EventEnqueuedUtcTime) OVER (PARTITION BY OrderNumber LIMIT DURATION(hour, 1) WHEN OrderStatus = 0),\n                EventEnqueuedUtcTime) AS Duration\nINTO [order-durations]\nFROM [order-events]\nWhere OrderStatus IN (1,2)"
           }
         },
         "inputs": [
