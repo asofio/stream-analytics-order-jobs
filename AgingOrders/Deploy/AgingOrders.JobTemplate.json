@@ -198,7 +198,7 @@
           "name": "Transformation",
           "properties": {
             "streamingUnits": "[parameters('StreamingUnits')]",
-            "query": "-- Query over the event stream for all orders in which the last status is Processing\n-- and determine if they have been Processing long enough to be of concern.\n\nWITH AgingOrders AS (\n\tSELECT OrderNumber,\n\t   DATEDIFF(\n\t   \t\tminute, \n\t\t\tLAST(EventEnqueuedUtcTime) OVER (PARTITION BY OrderNumber LIMIT DURATION(minute, 5) WHEN OrderStatus = 0),\n\t\t\tUDF.getCurrentDateTime(false)) as Duration\n\tFROM [order-events]\n)\n\nSELECT OrderNumber, CONCAT('Order with order number ', OrderNumber, ' is not progressing as expected.'), MAX(Duration)\nINTO [aging-orders]\nFROM AgingOrders\nWHERE Duration > 3\nGROUP BY OrderNumber, HoppingWindow(minute, 7, 2)"
+            "query": "-- Query over the event stream for all orders in which the last status is Processing\n-- and determine if they have been Processing long enough to be of concern.\nWITH AgingOrders AS (\n\tSELECT OrderId,\n\t   DATEDIFF(\n\t   \t\tsecond, \n\t\t\tLAST(EventEnqueuedUtcTime) OVER (PARTITION BY OrderNumber LIMIT DURATION(minute, 5) WHEN GetMetadataPropertyValue([order-events], '[User].[MessageType]') = 'OrderCreatedEvent'),\n\t\t\tUDF.getCurrentDateTime(false)) as Duration\n\tFROM [order-events]\n)\n\nSELECT OrderId, CONCAT('Order with order number ', OrderId, ' is not progressing as expected.'), MAX(Duration)\nINTO [aging-orders]\nFROM AgingOrders\nWHERE Duration > 3\nGROUP BY OrderId, HoppingWindow(minute, 7, 2)"
           }
         },
         "inputs": [
